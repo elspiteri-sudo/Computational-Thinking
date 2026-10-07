@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computational Thinking Quest</title>
+<style>
+:root{--blue:#3156a6;--purple:#7047a8;--green:#18864b;--red:#c43d3d;--gold:#f2b134;--ink:#20304a;--muted:#64748b;--bg:#f3f6fb;--card:#fff;--line:#dbe3ef}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+.wrap{max-width:920px;margin:auto;padding:22px}.top,.mission,.result{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(30,50,80,.06)}
+.toprow{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap}.eyebrow{font-size:13px;font-weight:bold;color:var(--muted);letter-spacing:.04em}
+h1{font-size:30px;margin:5px 0 8px}h2{margin:3px 0 10px}.stats{display:flex;gap:10px}.stat{background:#eef3fb;border-radius:13px;padding:10px 16px;text-align:center;min-width:90px}.stat small{display:block;color:var(--muted);font-weight:bold}.stat strong{font-size:22px}
+.progress{height:12px;background:#e5eaf2;border-radius:20px;overflow:hidden;margin-top:18px}.progress>div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:10%;transition:.3s}
+.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin-top:7px}.hidden{display:none!important}
+.intro{background:#f4f1fb;border-radius:15px;padding:18px}.bigemoji{font-size:42px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.token,.place{width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:13px;padding:14px;cursor:pointer;font-size:16px;min-height:50px;transition:.15s}.token:hover,.place:hover{transform:translateY(-1px);border-color:#9badca}.picked{border-color:var(--blue)!important;background:#edf3ff!important;outline:2px solid #adc4f3}
+button.action{border:0;background:var(--blue);color:white;border-radius:12px;padding:13px 19px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:15px}button.action:hover{filter:brightness(.94)}button.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+.feedback{font-weight:bold;margin:12px 0 0;min-height:24px}.box{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;padding:16px}.question{border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}.question p{font-weight:bold;margin:0 0 10px}
+select{width:100%;font-size:16px;padding:11px;border:1px solid #bbc7d9;border-radius:9px;background:#fff;color:var(--ink)}.steps{display:grid;gap:10px}.step{display:grid;grid-template-columns:82px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:12px}
+.nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.hier{text-align:center}.parent{display:inline-block;background:#e9eef8;padding:10px 30px;border-radius:10px;font-weight:bold}.children{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}.child{background:#f7f9fc;border:1px solid var(--line);padding:14px;border-radius:12px}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:30px}.cell{background:#f5f7fb;border:1px solid var(--line);border-radius:12px;padding:18px}.cell small{display:block;font-size:11px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;min-width:580px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:center}th:first-child,td:first-child{text-align:left}.scroll{overflow-x:auto}
+.result{text-align:center}.trophy{font-size:60px}.badgerow{font-size:28px;letter-spacing:5px}.note{font-size:14px;color:var(--muted)}
+@media(max-width:600px){.wrap{padding:10px}.top,.mission,.result{padding:17px;border-radius:15px}h1{font-size:25px}.grid2,.grid3{grid-template-columns:1fr}.children{grid-template-columns:1fr}.stats{width:100%}.stat{flex:1}.step{grid-template-columns:70px 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+<section class="top">
+ <div class="toprow"><div><div class="eyebrow">ICT • YEAR 8 • INTERACTIVE GAME</div><h1>🧠 Computational Thinking Quest</h1><div>10 missions • puzzles • decisions • algorithms • debugging • boss battle</div></div>
+ <div class="stats"><div class="stat"><small>XP</small><strong id="xp">0</strong></div><div class="stat"><small>BADGES</small><strong id="badges">0 🏅</strong></div></div></div>
+ <div class="progress"><div id="bar"></div></div><div class="meta"><span id="missionLabel">Mission 1 / 10</span><span>🎯 Goal: Become a CT Master</span></div>
+</section>
+
+<section class="mission" data-m="1">
+ <div class="intro"><div class="bigemoji">🚀</div><h2>Mission 1 — Unlock Your CT Powers</h2><p>The computer lab has been locked by the <b>Chaos Bug</b>. Select the FOUR genuine computational thinking techniques to unlock your powers.</p></div>
+ <div class="grid2" id="powers" style="margin-top:15px">
+  <button class="token" data-good="1">🧩 Decomposition</button><button class="token" data-good="1">🔍 Pattern Recognition</button>
+  <button class="token" data-good="0">🎨 Decoration</button><button class="token" data-good="1">🎯 Abstraction</button>
+  <button class="token" data-good="0">🎲 Guessing</button><button class="token" data-good="1">🪜 Algorithm Design</button>
+ </div><button class="action check">Unlock Powers 🔓</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="2">
+ <div class="eyebrow">MISSION 2 • HIERARCHICAL STRUCTURES</div><h2>🌳 Build the Animal Family</h2><p>A hierarchy organises related items into levels using parent and child relationships.</p>
+ <div class="hier box"><div class="parent">🐾 ANIMALS</div><div class="children"><div class="child"><b>🐟 Fish</b><br><small>Marine • Fresh Water</small></div><div class="child"><b>🐕 Mammals</b><br><small>Dog • Cat</small></div></div></div>
+ <div class="question"><p>1. Where does Dog belong?</p><select id="dog"><option value="">Choose…</option><option>Fish</option><option>Mammals</option><option>Marine</option></select></div>
+ <div class="question"><p>2. Where does Rainbow Trout belong?</p><select id="trout"><option value="">Choose…</option><option>Fresh Water</option><option>Mammals</option><option>Dog</option></select></div>
+ <div class="question"><p>3. In this hierarchy, Animals is a…</p><select id="animals"><option value="">Choose…</option><option>Parent</option><option>Algorithm</option><option>Pattern</option></select></div>
+ <button class="action check">Build Hierarchy 🌳</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="3"><div class="eyebrow">MISSION 3 • CT DETECTIVE</div><h2>🕵️ Which Power Is Being Used?</h2><p>Investigate each clue and identify the computational thinking technique.</p><div id="detective"></div><button class="action check">Check Clues 🔎</button><p class="feedback"></p></section>
+
+<section class="mission hidden" data-m="4">
+ <div class="intro"><div class="bigemoji">⏰🎒</div><h2>Mission 4 — Beat the School Bell!</h2><p>School starts at <b>8:00</b>. Journey = <b>20 min</b>, breakfast = <b>15 min</b>, dressing = <b>10 min</b>, packing = <b>5 min</b>. Traffic becomes heavier after <b>7:30</b>.</p></div>
+ <h3>Part A — Remove irrelevant information</h3><p>Click the TWO details that do <b>not</b> help you decide when to leave.</p>
+ <div class="grid2" id="schooljunk"><button class="token" data-good="0">🚌 Journey takes 20 min</button><button class="token" data-good="1">🎵 Favourite song lasts 3 min</button><button class="token" data-good="1">🎒 School bag is blue</button><button class="token" data-good="0">🚗 Traffic worsens after 7:30</button></div>
+ <h3>Part B — Choose a plan</h3><div id="schoolplan"><button class="token" data-good="1">A. Prepare early and leave before traffic becomes heavy.</button><button class="token" data-good="0">B. Ignore travel time and leave whenever you feel ready.</button><button class="token" data-good="0">C. Decide based on the colour of your bag.</button></div>
+ <button class="action check">Beat the Bell 🔔</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="5">
+ <div class="eyebrow">MISSION 5 • GAME STRATEGY</div><h2>🎮 Escape the Dungeon!</h2><p>You have 90 seconds. Collect the key, avoid enemies and reach the exit.</p>
+ <div class="map"><div class="cell">🙂<small>START</small></div><div class="cell">👾</div><div class="cell">🔑<small>KEY</small></div><div class="cell">⬆️</div><div class="cell">👾</div><div class="cell">⬇️</div><div class="cell">🎵</div><div class="cell">➡️</div><div class="cell">🚪<small>EXIT</small></div></div>
+ <div class="box" style="margin-top:12px"><b>Secret clue:</b> enemies pause for 3 seconds after attacking. The music, wall colour and hero's shirt do not affect the mission.</div>
+ <div id="gameqs"></div><button class="action check">Escape! 🏃</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="6">
+ <div class="eyebrow">MISSION 6 • ALGORITHM DESIGN</div><h2>🤖 Program the Robot</h2><p>The robot needs to log into a school computer. Number the instructions from 1 to 6 in the correct order.</p>
+ <div class="steps" id="robotsteps"></div><button class="action check">▶ Run Robot</button><div class="box" id="robot" style="margin-top:12px;text-align:center;font-size:30px">🤖 <span style="font-size:16px">Waiting for instructions…</span></div><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="7">
+ <div class="eyebrow">MISSION 7 • DEBUGGING</div><h2>🐞 Bug Hunter</h2><p>This sandwich algorithm contains a bad step. Click the instruction that causes the problem.</p>
+ <div id="bugsteps"><button class="token" data-good="0">1️⃣ Get two slices of bread.</button><button class="token" data-good="0">2️⃣ Put filling on one slice.</button><button class="token" data-good="1">3️⃣ Eat the sandwich before adding the second slice.</button><button class="token" data-good="0">4️⃣ Put the second slice on top.</button></div>
+ <button class="action check">Squash the Bug 🐞</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="8">
+ <div class="eyebrow">MISSION 8 • REAL-LIFE PROBLEM</div><h2>🍕 The €15 Challenge</h2><p>Five friends have <b>€15 each</b> and only <b>2 hours</b>. Choose the best activity.</p>
+ <div class="scroll"><table><thead><tr><th>Activity</th><th>Cost</th><th>Travel</th><th>Time</th><th>Interested</th></tr></thead><tbody><tr><td>🍕 Pizza</td><td>€12</td><td>10 min</td><td>1 hr</td><td>5/5</td></tr><tr><td>🎬 Cinema</td><td>€14</td><td>20 min</td><td>2.5 hrs</td><td>4/5</td></tr><tr><td>🎳 Bowling</td><td>€18</td><td>15 min</td><td>1.5 hrs</td><td>5/5</td></tr></tbody></table></div>
+ <div class="grid3" style="margin-top:14px"><button class="place" data-place="pizza">🍕 Choose Pizza</button><button class="place" data-place="cinema">🎬 Choose Cinema</button><button class="place" data-place="bowling">🎳 Choose Bowling</button></div>
+ <div class="question"><p>Why?</p><select id="reason"><option value="">Choose a reason…</option><option value="good">It fits the budget and time, and all friends like it.</option><option value="logo">It probably has the nicest logo.</option><option value="expensive">It is the most expensive.</option></select></div>
+ <button class="action check">Make Decision ✅</button><p class="feedback"></p>
+</section>
+
+<section class="mission hidden" data-m="9"><div class="eyebrow">MISSION 9 • RAPID-FIRE ROUND</div><h2>⚡ Think Fast!</h2><p>Identify the CT technique in each real-life situation.</p><div id="rapid"></div><button class="action check">Check Rapid Round ⚡</button><p class="feedback"></p></section>
+
+<section class="mission hidden" data-m="10"><div class="intro" style="text-align:center"><div class="bigemoji">👾</div><div class="eyebrow">FINAL MISSION</div><h2>The Chaos Bug — Boss Battle</h2><p>Use everything you have learned to defeat the final boss.</p></div><div id="boss"></div><button class="action check">⚔️ Defeat the Chaos Bug!</button><p class="feedback"></p></section>
+
+<section class="result hidden" id="result"><div class="trophy">🏆</div><h2>QUEST COMPLETE!</h2><div id="finalxp" style="font-size:30px;font-weight:bold"></div><h3 id="rank"></h3><div id="badgeRow" class="badgerow"></div><p>You have practised hierarchical structures, decomposition, pattern recognition, abstraction, algorithms and problem-solving.</p><button class="action" id="restart">Play Again 🔄</button></section>
+
+<div class="nav"><button class="action secondary hidden" id="back">← Previous</button><button class="action hidden" id="next">Next Mission →</button></div>
+<p class="note" style="text-align:center">Computational Thinking Quest • ICT Year 8</p>
+</div>
+<script>
+(()=>{
+const r=document.getElementById('app');let cur=1,xp=0,badges=0,selectedPlace='';const earned={};
+const xpEl=document.getElementById('xp'),badgeEl=document.getElementById('badges'),next=document.getElementById('next'),back=document.getElementById('back'),bar=document.getElementById('bar'),label=document.getElementById('missionLabel');
+const skills=['Decomposition','Pattern Recognition','Abstraction','Algorithm Design'];
+function selectable(box,single=false){box.querySelectorAll('.token').forEach(b=>b.addEventListener('click',()=>{if(single)box.querySelectorAll('.token').forEach(x=>x.classList.remove('picked'));b.classList.toggle('picked')}))}
+selectable(document.getElementById('powers'));selectable(document.getElementById('schooljunk'));selectable(document.getElementById('schoolplan'),true);selectable(document.getElementById('bugsteps'),true);
+function skillQs(el,data){data.forEach((q,i)=>{el.insertAdjacentHTML('beforeend',`<div class="question"><p>${i+1}. ${q[0]}</p><select data-a="${q[1]}"><option value="">Choose your power…</option>${skills.map(s=>`<option>${s}</option>`).join('')}</select></div>`)})}
+skillQs(document.getElementById('detective'),[
+['You split homework into Maths, English and ICT tasks.','Decomposition'],
+['You notice your bus is late every rainy day.','Pattern Recognition'],
+['You ignore car colours when planning the quickest route.','Abstraction'],
+['You write numbered instructions for making toast.','Algorithm Design'],
+['You divide organising a party into food, guests and music.','Decomposition']]);
+skillQs(document.getElementById('gameqs'),[
+['Ignore the music, wall colour and hero shirt.','Abstraction'],
+['Notice enemies always pause after attacking.','Pattern Recognition'],
+['Split the mission into finding the key, avoiding enemies and reaching the exit.','Decomposition'],
+['Plan the exact sequence of moves to reach the exit.','Algorithm Design']]);
+skillQs(document.getElementById('rapid'),[
+['Divide a science project into research, experiment and presentation.','Decomposition'],
+['Notice the same printer error appears whenever too much paper is loaded.','Pattern Recognition'],
+['A map leaves out tiny unnecessary details.','Abstraction'],
+['A recipe gives steps in a particular order.','Algorithm Design'],
+['You recognise a strategy that worked in earlier game levels.','Pattern Recognition'],
+['You break cleaning your room into clothes, desk, floor and bed.','Decomposition']]);
+skillQs(document.getElementById('boss'),[
+['A huge problem is divided into smaller tasks.','Decomposition'],
+['Repeated behaviour is spotted in data.','Pattern Recognition'],
+['Unnecessary details are removed.','Abstraction'],
+['A precise set of ordered instructions is created.','Algorithm Design'],
+['A successful solution from a similar previous problem is recognised.','Pattern Recognition'],
+['You focus only on information that affects the solution.','Abstraction']]);
+const robotSteps=[['Enter password',4],['Switch computer on',1],['Click Log In',5],['Wait for login screen',2],['Enter username',3],['Wait for desktop',6]];
+robotSteps.forEach(([t,a])=>document.getElementById('robotsteps').insertAdjacentHTML('beforeend',`<div class="step"><select data-a="${a}"><option value="">#</option>${[1,2,3,4,5,6].map(n=>`<option>${n}</option>`).join('')}</select><span>${t}</span></div>`));
+document.querySelectorAll('.place').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.place').forEach(x=>x.classList.remove('picked'));b.classList.add('picked');selectedPlace=b.dataset.place}));
+function selectedScore(box){const p=[...box.querySelectorAll('.picked')];return {good:p.filter(x=>x.dataset.good==='1').length,bad:p.filter(x=>x.dataset.good==='0').length}}
+function award(key,points,perfect,msg){if(earned[key]){xp-=earned[key].points;if(earned[key].perfect)badges--}earned[key]={points,perfect};xp+=points;if(perfect)badges++;xpEl.textContent=xp;badgeEl.textContent=badges+' 🏅';document.querySelector(`.mission[data-m="${cur}"] .feedback`).textContent=msg;next.classList.remove('hidden')}
+function bind(n,fn){document.querySelector(`.mission[data-m="${n}"] .check`).addEventListener('click',fn)}
+bind(1,()=>{const z=selectedScore(document.getElementById('powers')),ok=z.good===4&&z.bad===0;award('m1',ok?50:z.good*10,ok,ok?'🔓 All four CT powers unlocked! +50 XP':'Not quite. Choose the four real CT techniques.')});
+bind(2,()=>{let n=0;if(dog.value==='Mammals')n++;if(trout.value==='Fresh Water')n++;if(animals.value==='Parent')n++;award('m2',n*20,n===3,n===3?'🌳 Excellent! You built the hierarchy correctly.':'Check the parent and child relationships again.')});
+function selectMission(n,key,count){bind(n,()=>{const sec=document.querySelector(`.mission[data-m="${n}"]`);let c=0;sec.querySelectorAll('select[data-a]').forEach(s=>{if(s.value===s.dataset.a)c++});award(key,c*10,c===count,c===count?`🌟 Perfect! ${c}/${count} solved.`:`🔎 You solved ${c}/${count}. Review the others and try again.`)})}
+selectMission(3,'m3',5);
+bind(4,()=>{const a=selectedScore(schooljunk),b=selectedScore(schoolplan),ok=a.good===2&&a.bad===0&&b.good===1&&b.bad===0;award('m4',ok?60:(a.good+b.good)*15,ok,ok?'🔔 You beat the bell! Great abstraction and planning.':'⏰ Try again. Remove irrelevant details and use useful information.')});
+selectMission(5,'m5',4);
+bind(6,()=>{const ss=[...document.querySelectorAll('#robotsteps select')];let c=0;ss.forEach(s=>{if(+s.value===+s.dataset.a)c++});if(new Set(ss.map(s=>s.value).filter(Boolean)).size!==6)c=0;const ok=c===6;robot.innerHTML=ok?'🤖 ✅ <span style="font-size:16px">LOGIN SUCCESSFUL!</span>':'🤖 ❌ <span style="font-size:16px">ERROR — check the sequence!</span>';award('m6',c*10,ok,ok?'🤖 Robot programmed perfectly! +60 XP':'The robot is confused. Fix the algorithm and run it again.')});
+bind(7,()=>{const z=selectedScore(bugsteps),ok=z.good===1&&z.bad===0;award('m7',ok?50:0,ok,ok?'🐞 BUG SQUASHED! Complete the sandwich before eating it.':'The bug escaped! Find the step that happens at the wrong time.')});
+bind(8,()=>{const ok=selectedPlace==='pizza'&&reason.value==='good';award('m8',ok?60:0,ok,ok?'🍕 Smart choice! It meets all the constraints.':'🤔 Check the €15 budget, 2-hour limit and preferences.')});
+selectMission(9,'m9',6);selectMission(10,'m10',6);
+function show(n){cur=n;document.querySelectorAll('.mission').forEach(x=>x.classList.toggle('hidden',+x.dataset.m!==n));result.classList.add('hidden');bar.style.width=(n*10)+'%';label.textContent=`Mission ${n} / 10`;back.classList.toggle('hidden',n===1);next.classList.add('hidden');next.textContent=n===10?'See My Rank 🏆':'Next Mission →'}
+next.addEventListener('click',()=>{if(cur<10)show(cur+1);else{document.querySelectorAll('.mission').forEach(x=>x.classList.add('hidden'));next.classList.add('hidden');back.classList.add('hidden');result.classList.remove('hidden');finalxp.textContent=`${xp} XP • ${badges} Badges`;rank.textContent=xp>=500?'🌟 RANK: COMPUTATIONAL THINKING MASTER':xp>=400?'🥇 RANK: EXPERT PROBLEM SOLVER':xp>=300?'🥈 RANK: SKILLED THINKER':'🥉 RANK: CT EXPLORER';badgeRow.textContent='🏅'.repeat(Math.min(badges,10));label.textContent='Quest completed!';bar.style.width='100%'}});
+back.addEventListener('click',()=>{if(cur>1)show(cur-1)});
+restart.addEventListener('click',()=>{xp=0;badges=0;selectedPlace='';Object.keys(earned).forEach(k=>delete earned[k]);xpEl.textContent='0';badgeEl.textContent='0 🏅';document.querySelectorAll('.picked').forEach(x=>x.classList.remove('picked'));document.querySelectorAll('select').forEach(x=>x.value='');document.querySelectorAll('.feedback').forEach(x=>x.textContent='');robot.innerHTML='🤖 <span style="font-size:16px">Waiting for instructions…</span>';show(1)});
+show(1);
+})();
+</script>
+</body>
+</html>
